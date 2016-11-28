@@ -1,1 +1,14 @@
-TODO: Implement entry
+
+
+  <section class="item">
+    <h2>{{name}}</h2>
+    <div class="item-body">
+      {{#if type}}
+        <p class="indent-wrapped"><span class="type">type: </span>{{type}}</p>
+      {{/if}}
+      {{#if amount}
+        <p class="indent-wrapped"><span class="when">amount: </span>{{amount}}</p>
+      {{/if}}
+    </div>
+    <div class="dismiss-button">&times;</div>
+</section>
