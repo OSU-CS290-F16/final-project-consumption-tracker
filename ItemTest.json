@@ -1,0 +1,20 @@
+{
+  "oil":
+  {
+    "name": "Oil",
+    "type": "Fuel",
+    "amount": 29
+  },
+  "US Dollars":
+  {
+    "name": "US Dollars",
+    "type": "Currency",
+    "amount": 892.32
+  },
+  "Gas":
+  {
+    "name": "Gas",
+    "type": "Fuel",
+    "amount": 19
+  }
+}
