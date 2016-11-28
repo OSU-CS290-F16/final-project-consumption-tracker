@@ -1,14 +1,15 @@
 
 
-  <section class="item">
-    <h2>{{name}}</h2>
-    <div class="item-body">
+  <section class="name"> // item name
+    <h2>{{name}}</h2> // get item name
+    <div class="item-body"> // contents of item
       {{#if type}}
-        <p class="indent-wrapped"><span class="type">type: </span>{{type}}</p>
+        <p class="indent-wrapped"><span class="type">type: </span>{{type}}</p>  // get type discription
       {{/if}}
-      {{#if amount}
-        <p class="indent-wrapped"><span class="when">amount: </span>{{amount}}</p>
+      {{#if amount}}
+        <p class="indent-wrapped"><span class="when">amount: </span>{{amount}}</p> // get amount of item
       {{/if}}
     </div>
-    <div class="dismiss-button">&times;</div>
+    <div class="edit-button">Edit</div> // button to edit the item amount or delete item from list
+                                        // brings up edit menu
 </section>
