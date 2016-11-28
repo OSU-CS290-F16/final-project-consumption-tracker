@@ -13,8 +13,6 @@ app.use(express.static(__dirname + '/public'));
 app.use("/styles", express.static(__dirname + 'public/styles'));
 app.use("/index", express.static(__dirname + 'public/index'));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.get('/', function (request, response) {
   response.render('index', {title: 'Consumption Tracker'});
 });
