@@ -10,8 +10,12 @@
   },
   "license": "UNLICENSED",
   "contributors": [
-    {"name": "Travis Whitehead"},
-    {"name": "Stephen Hoffman"}
+    {
+      "name": "Travis Whitehead"
+    },
+    {
+      "name": "Stephen Hoffman"
+    }
   ],
   "bugs": {
     "url": "https://github.com/OSU-CS290-F16/final-project-consumption-tracker/issues"
