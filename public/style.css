@@ -13,6 +13,8 @@ main {
 a {
   text-decoration: none;
   color: black;
+  left: 0;
+  padding: 10px;
 }
 
 nav ul {
@@ -48,19 +50,21 @@ footer{
 }
 .item h2 {
   margin: 20px;
-  text-align: center;;
+  text-align: center;
 }
 .item p{
   margin: auto;
-  text-align: right;
+  padding-left: 20px;
+  text-align: left;
 }
 .item .edit-button{
   position: absolute;
   bottom: 0px;
-  right: 10px;
-  font-size: 15px;
-  display: none;
+  right: 0px;
+  font-size: 25px;
+  display: block;
   cursor: pointer;
+  color: grey;
 }
 .add-item-button {
   position: fixed;

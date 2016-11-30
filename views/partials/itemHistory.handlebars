@@ -1,0 +1,11 @@
+
+<section class="history">
+  <h2>{{name}}</h2>
+  <div class="history-body">
+    {{#each item.history}}
+      <p class="indent-wrapped"><span class="date">Data: </span>{{date}}</p>
+      <p class="indent-wrapped"><span class="consumption-amount">Consumption: </span>{{consumption}}</p>
+    {{/each}}
+  </div>
+  <div class="edit-button">Edit</div>
+</section>
