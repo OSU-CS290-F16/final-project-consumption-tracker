@@ -13,8 +13,10 @@ app.use(express.static(__dirname + '/public'));
 app.use("/styles", express.static(__dirname + 'public/styles'));
 app.use("/index", express.static(__dirname + 'public/index'));
 
+var ItemTest = require('./ItemTest.json');
+
 app.get('/', function (request, response) {
-  response.render('index', {title: 'Consumption Tracker'});
+  response.render('index', {title: 'Consumption Tracker', item: ItemTest});
 });
 
 app.get('/track/:data', function (request, response) {

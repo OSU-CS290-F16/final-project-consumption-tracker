@@ -1,10 +1,18 @@
 /* TODO Style it up */
-body {
+header{
+  display: block;
+  background-color: #93baf9;
+  color: black;
+}
+main {
+  display: flex;
+  flex-wrap: wrap;
   background-color: #F0F0F0;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 nav ul {
@@ -14,4 +22,49 @@ nav ul {
 
 nav li {
   display: inline;
+}
+footer{
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #93baf9;
+  color: grey;
+  padding-left: 10px;
+}
+.item{
+  background-color: #93baf9;
+  position: relative;
+  width: 300px;
+  min-height: 300px;
+  margin: 10px;
+  font-size: 24px;
+  font-weight: 200;
+  word-wrap: break-word;
+}
+.item-body{
+  text-align: left;
+  color: grey;
+}
+.item h2 {
+  margin: 20px;
+  text-align: center;;
+}
+.item p{
+  margin: auto;
+  text-align: right;
+}
+.item .edit-button{
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  font-size: 15px;
+  display: none;
+  cursor: pointer;
+}
+.add-item-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 10;
 }

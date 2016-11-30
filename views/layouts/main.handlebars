@@ -5,12 +5,12 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="/style.css" media="screen">
   </head>
-  <body>
-
-    {{>header}}
-
-    {{{body}}}
-
-  </body>
+{{> header}}
+  <main>
+    <body>
+      {{{body}}}
+    </body>
+  </main>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.runtime.js"></script>
 </html>
+{{> footer}}
