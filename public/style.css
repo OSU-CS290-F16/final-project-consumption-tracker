@@ -4,7 +4,9 @@ header{
   background-color: #93baf9;
   color: black;
 }
-body {
+main {
+  display: flex;
+  flex-wrap: wrap;
   background-color: #F0F0F0;
 }
 
@@ -39,6 +41,10 @@ footer{
   font-size: 24px;
   font-weight: 200;
   word-wrap: break-word;
+}
+.item-body{
+  text-align: left;
+  color: grey;
 }
 .item h2 {
   margin: 20px;
