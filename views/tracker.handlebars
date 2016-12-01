@@ -1,1 +1,9 @@
-{{>itemHistory}}
+<section class="history">
+  <h2>{{name}}</h2>
+  <div class="history-body">
+    {{#each tracker.history}}
+      {{>itemHistory}}
+    {{/each}}
+  </div>
+  <div class="edit-button">Edit</div>
+</section>
