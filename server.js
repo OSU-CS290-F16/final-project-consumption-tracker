@@ -19,10 +19,13 @@ app.get('/', function (request, response) {
   response.render('index', {title: 'Consumption Tracker', item: ItemTest});
 });
 
-app.get('/track/:data', function (request, response) {
-  response.render('tracker', {title: 'Consumption Tracker', item: ItemTest[request.params.data]});
-  console.log(ItemTest[request.params.data]);
-  console.log(ItemTest[request.params.data].history); // TODO: Pass in entries, update title to reflect the dat
+app.get('/track/:trackerid', function (request, response) {
+  var tracker = ItemTest[request.params.trackerid];
+
+  response.render('tracker', {
+    title: tracker.name + ' Tracker',
+    tracker: tracker
+  });
 });
 
 app.get('*', function (request, response) {
