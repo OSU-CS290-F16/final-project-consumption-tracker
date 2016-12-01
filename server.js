@@ -1,7 +1,9 @@
 var path = require('path');
 var express = require('express');
 var exphbs = require('express-handlebars');
+var config = require('./config.json');
 
+var ItemTest = require('./ItemTest.json');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -13,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 app.use("/styles", express.static(__dirname + 'public/styles'));
 app.use("/index", express.static(__dirname + 'public/index'));
 
-var ItemTest = require('./ItemTest.json');
+
 
 app.get('/', function (request, response) {
   response.render('index', {title: 'Consumption Tracker', item: ItemTest});
