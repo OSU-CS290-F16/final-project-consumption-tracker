@@ -17,14 +17,14 @@
       }
     ]
   },
-  "US Dollars":
+  "dollars":
   {
     "name": "US Dollars",
     "type": "Currency",
     "unit": "dollars",
     "amount": 892.32
   },
-  "Gas":
+  "gas":
   {
     "name": "Gas",
     "type": "Fuel",
