@@ -4,11 +4,12 @@
     <h2>{{name}}</h2>
     <div class="item-body">
       {{#if type}}
-        <p class="indent-wrapped"><span class="type">type: </span>{{type}}</p> 
+        <p class="indent-wrapped"><span class="type">type: </span>{{type}}</p>
       {{/if}}
       {{#if amount}}
-        <p class="indent-wrapped"><span class="when">amount: </span>{{amount}}</p>
+        <p class="indent-wrapped"><span class="amount">amount: </span>{{amount}}</p>
       {{/if}}
     </div>
-    <div class="edit-button">Edit</div>
+    <div class="edit-button" ><a href="/track/{{@key}}">Edit</div>
+
 </section>

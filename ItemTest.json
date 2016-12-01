@@ -4,11 +4,18 @@
     "name": "Oil",
     "type": "Fuel",
     "amount": 29,
-    "history":{
+    "history":
+    {
+      "data":
+      {
       "date": "10/10/16",
-      "consumption": 2,
+      "consumption": 2
+      },
+      "data":
+      {
       "date": "10/20/16",
       "consumption": 4
+      }
     }
   },
   "US Dollars":

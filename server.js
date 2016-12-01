@@ -20,7 +20,9 @@ app.get('/', function (request, response) {
 });
 
 app.get('/track/:data', function (request, response) {
-  response.render('tracker', {title: 'Consumption Tracker'}); // TODO: Pass in entries, update title to reflect the dat
+  response.render('tracker', {title: 'Consumption Tracker', item: ItemTest[request.params.data]});
+  console.log(ItemTest[request.params.data]);
+  console.log(ItemTest[request.params.data].history); // TODO: Pass in entries, update title to reflect the dat
 });
 
 app.get('*', function (request, response) {
