@@ -3,6 +3,7 @@
   {
     "name": "Oil",
     "type": "Fuel",
+    "unit": "gallons",
     "amount": 29,
     "history":
     [
@@ -20,12 +21,14 @@
   {
     "name": "US Dollars",
     "type": "Currency",
+    "unit": "dollars",
     "amount": 892.32
   },
   "Gas":
   {
     "name": "Gas",
     "type": "Fuel",
+    "unit": "gallons",
     "amount": 19
   }
 }
