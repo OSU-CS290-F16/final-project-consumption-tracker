@@ -25,7 +25,6 @@ function displayEditHistoryModal()
 {
   var editHistoryModal = document.getElementById('edit-history-modal');
   historyModal.classList.remove('hidden');
-
 }
 function closeEditHistoryModal()
 {
