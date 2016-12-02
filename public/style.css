@@ -66,6 +66,15 @@ footer{
   cursor: pointer;
   color: grey;
 }
+.history-item{
+  display: inline-block;
+  min-width: 90%;
+  min-height: 200px;
+  background-color:  #93baf9;
+}
+.history-item .p{
+  display: inline;
+}
 .add-item-button {
   position: fixed;
   bottom: 25px;
