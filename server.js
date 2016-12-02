@@ -8,11 +8,11 @@ var ItemTest = require('./ItemTest.json');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var db = require('mongodb').MongoClient;
-db.connect("mongodb://"+config.username+":"+config.password+"@"+config.host+"/"+config.database,
-function (error, db) {
-  console.log("== Connected to database.");
-});
+//var db = require('mongodb').MongoClient;
+//db.connect("mongodb://"+config.username+":"+config.password+"@"+config.host+"/"+config.database,
+//function (error, db) {
+  //console.log("== Connected to database.");
+//});
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
