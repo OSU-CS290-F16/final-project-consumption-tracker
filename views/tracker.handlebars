@@ -1,8 +1,8 @@
 <section class="history">
-  <h2>{{name}}</h2>
+  <h2>{{tracker.name}}</h2>
   <div class="history-body">
-    {{#each tracker.history}}
-      {{>itemHistory}}
+    {{#each history}}
+      {{>itemHistory unit=../tracker.unit}}
     {{/each}}
   </div>
 </section>
