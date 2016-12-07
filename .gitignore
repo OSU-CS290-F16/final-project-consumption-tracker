@@ -1,3 +1,4 @@
 node_modules
 config.json
-public/entry-template.js
+public/entry.js
+public/history.js

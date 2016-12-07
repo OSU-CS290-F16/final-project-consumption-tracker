@@ -59,7 +59,21 @@ function insertNewTracker()
 
 function deleteTracker()
 {
+  console.log("Adding new item");
+  var itemName = document.getElementById('tracker-input-name').value||'';
+  var itemUnits = document.getElementById('tracker-input-unit').value||'';
+  var itemAmount = document.getElementById('tracker-input-amount').value||'';
 
+  var newItemTemplate =  Handlebars.templates['entry'];
+  var newItemHtml = newItemTemplate({
+    name: itemName,
+    type: itemUnits,
+    amount: itemAmount,
+    unit: itemUnits
+  });
+
+  var mainElement = document.querySelector('main');
+  mainElement.insertAdjacentHTML('beforeend', newItemHtml);
 }
 
 function storeTracker(name, type, unit, quantity, callback)

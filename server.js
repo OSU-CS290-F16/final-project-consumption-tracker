@@ -14,9 +14,8 @@ var mySQLConnection = mysql.createConnection({
   password: config.mySQLPassword,
   database: config.mySQLDB
 });
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main'
-}));
+
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(bodyParser.json());
@@ -49,7 +48,8 @@ app.get('/', function(request, response) {
 });
 
 app.post('/', function(req, res, next) {
-  if (req.body && req.body.name) {
+  if (req.body && req.body.name)
+  {
     // Insert Tracker into database
     mySQLConnection.query(
       'INSERT INTO tracker (name, unit, quantity) VALUES (?, ?, ?)', [req.body.name, req.body.unit, req.body.quantity],
@@ -91,6 +91,7 @@ app.post('/', function(req, res, next) {
 
         });
       });
+
   } else {
     res.status(400).send("Tracker must have a name.");
   }

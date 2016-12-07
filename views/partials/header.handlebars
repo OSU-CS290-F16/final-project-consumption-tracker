@@ -3,7 +3,12 @@
   <nav>
     <ul>
       <li><a href="/">Home</a></li>
-      <li><button id ="add-item-button">add Item</button></li>
+      {{#if tracker}}
+        <li><button id ="add-history-button">add history</button></li>
+      {{/if}}
+      {{#unless tracker}}
+        <li><button id ="add-item-button">add Item</button></li>
+      {{/unless}}
     </ul>
   </nav>
 </header>
