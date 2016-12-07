@@ -1,9 +1,14 @@
 {
   "name": "consumption-tracker",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A proof of concept webapp that allows users to track consumption of some unit.",
   "homepage": "https://github.com/OSU-CS290-F16/final-project-consumption-tracker",
   "main": "server.js",
+  "scripts": {
+    "build": "handlebars views/partials/entry.handlebars -f public/entry-template.js",
+    "prestart": "npm run build",
+    "start": "node server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/OSU-CS290-F16/final-project-consumption-tracker.git"
@@ -21,6 +26,7 @@
     "url": "https://github.com/OSU-CS290-F16/final-project-consumption-tracker/issues"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "mysql": "^2.12.0"

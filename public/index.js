@@ -1,6 +1,5 @@
 function displayModal()
 {
-  console.log('dislayingModal');
   var modalBackground = document.getElementById('modal-backdrop');
   var historyModal = document.getElementById('add-tracker-modal');
   modalBackground.classList.remove('hidden');
@@ -22,19 +21,79 @@ function clearModalValue()
     input.value = '';
   }
 }
-function insertNewItem()
+
+function insertNewTracker()
+{
+  var trackerName = document.getElementById('tracker-input-name').value || '';
+  var trackerType = document.getElementById('tracker-input-type').value || ''; // TODO: Form not implemented yet
+  var trackerUnit = document.getElementById('tracker-input-unit').value || '';
+  var trackerQuantity = document.getElementById('tracker-input-amount').value || '';
+
+  if (trackerName.trim())
+  {
+    storeTracker(trackerName, trackerType, trackerUnit, trackerQuantity, function (err, trackerID) {
+      if (err) {
+        alert("Unable to save tracker. Error: " + err);
+      } else {
+
+        var trackerTemplate = Handlebars.templates.entry;
+        var trackerHTML = trackerTemplate({
+          name: trackerName,
+          type: trackerType,
+          unit: trackerUnit,
+          quantity: trackerQuantity,
+          id: trackerID
+        });
+
+        var main = document.querySelector('main');
+        main.insertAdjacentHTML('beforeend', trackerHTML);
+      }
+    });
+
+    closeModal();
+
+  } else {
+    alert('You must specify a name for the tracker.');
+  }
+}
+
+function deleteTracker()
 {
 
 }
-function deleteItem()
-{
 
+function storeTracker(name, type, unit, quantity, callback)
+{
+  var postRequest = new XMLHttpRequest();
+  postRequest.open('POST', '/');
+  postRequest.setRequestHeader('Content-Type', 'application/json');
+
+  postRequest.addEventListener('load', function (event) {
+    var error;
+    var trackerID = 0;
+
+    if (event.target.status !== 200) {
+      error = event.target.response;
+    } else {
+      // If there's no error, ID of new tracker will be in response
+      trackerID = JSON.parse(event.target.response).trackerID;
+    }
+    callback(error, trackerID);
+  });
+
+  postRequest.send(JSON.stringify({
+    name: name,
+    type: type,
+    unit: unit,
+    quantity: quantity
+  }));
 }
+
 window.addEventListener('DOMContentLoaded', function (event) {
 
-  var addItem = document.getElementById('add-item-button');
-  if (addItem) {
-    addItem.addEventListener('click', displayModal);
+  var addTracker = document.getElementById('add-item-button');
+  if (addTracker) {
+    addTracker.addEventListener('click', displayModal);
   }
 
   var modalCloseButton = document.querySelector('.modal-close-button');
@@ -42,14 +101,14 @@ window.addEventListener('DOMContentLoaded', function (event) {
     modalCloseButton.addEventListener('click', closeModal);
   }
 
-  var modalCancalButton = document.querySelector('.modal-cancel-button');
-  if (modalCancalButton) {
-    modalCancalButton.addEventListener('click', closeModal);
+  var modalCancelButton = document.querySelector('.modal-cancel-button');
+  if (modalCancelButton) {
+    modalCancelButton.addEventListener('click', closeModal);
   }
 
-  var addItemButton = document.querySelector('.modal-accept-button');
-  if (addItemButton) {
-    addItemButton.addEventListener('click', insertNewItem);
+  var addTrackerButton = document.querySelector('.modal-accept-button');
+  if (addTrackerButton) {
+    addTrackerButton.addEventListener('click', insertNewTracker);
   }
 
 });
