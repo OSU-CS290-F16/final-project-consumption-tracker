@@ -68,7 +68,6 @@ app.post('/', function(req, res, next) {
           var trackerID = result[0].trackerID;
 
           // If the new tracker has a starting quantity, store a historyItem
-          console.log(req.body.quantity);
           if (req.body.quantity != 0) {
             var date = new Date();
             var dateString = ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
