@@ -27,8 +27,9 @@ function addNewHistory()
   var historyAmount = document.getElementById('history-input-amount').value||'';
   var historyDate = document.getElementById('history-input-date').value||'';
 
-  var newHistoryTemplate =  Handlebars.templates['history'];
+  var newHistoryTemplate =  Handlebars.templates['itemHistory'];
   console.log(newHistoryTemplate);
+  console.log(Handlebars.templates);
   var newHistoryHtml = newHistoryTemplate({
     date: historyDate,
     consumption: historyAmount
