@@ -6,8 +6,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "handlebars views/partials/entry.handlebars -f public/entry.js",
-    "prestart": "npm run build",
+    "buildentry": "handlebars views/partials/entry.handlebars -f public/entry.js",
+    "buildhistory": "handlebars views/partials/itemHistory.handlebars -f public/history.js",
+    "prestart": "npm run buildhistory & npm run buildentry",
     "start": "node server.js"
   },
   "repository": {
