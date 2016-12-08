@@ -24,6 +24,7 @@ function clearNewHistoryModalValues() // clears history forms values
   }
 }
 
+// Create new history item from the add history modal
 function addNewHistory()
 {
   var historyAmount = document.getElementById('history-input-amount').value||'';
@@ -32,20 +33,23 @@ function addNewHistory()
   // Quantity is required
   if (historyAmount.trim())
   {
-    storeHistory(historyDate, historyAmount, function (err, date, unit) {
+    storeHistory(historyDate, historyAmount, function (err, id, date, unit) {
       if (err) {
         alert("Unable to save history. " + err);
       } else {
 
         var historyTemplate =  Handlebars.templates.itemHistory;
         var historyHtml = historyTemplate({
+          id: id,
           date: date,
           quantity: historyAmount,
           unit: unit
         });
 
-        var sectionElement = document.querySelector('section');
-        sectionElement.insertAdjacentHTML('beforeend', historyHtml);
+        var historyBody = document.getElementById('history-body');
+        historyBody.insertAdjacentHTML('beforeend', historyHtml);
+
+        document.getElementById(id).addEventListener('click', removeHistory);
 
         closeModal();
       }
@@ -56,6 +60,7 @@ function addNewHistory()
   }
 }
 
+// Post a new history item
 function storeHistory(date, quantity, callback)
 {
   var postRequest = new XMLHttpRequest();
@@ -64,6 +69,7 @@ function storeHistory(date, quantity, callback)
 
   postRequest.addEventListener('load', function (event) {
     var err;
+    var id
     var date;
     var unit;
 
@@ -71,17 +77,38 @@ function storeHistory(date, quantity, callback)
       err = event.target.response;
     } else {
       var response = JSON.parse(event.target.response);
+      id = response.id;
       date = response.date;
       unit = response.unit;
     }
 
-    callback(err, date, unit);
+    callback(err, id, date, unit);
   });
 
   postRequest.send(JSON.stringify({
     date: date,
     quantity: quantity
   }));
+}
+
+function removeHistory() {
+  var id = this.getAttribute('id');
+  var historyItem = this.parentNode;
+
+  var postRequest = new XMLHttpRequest();
+  postRequest.open('POST', window.location.pathname + '/remove/' + id);
+  postRequest.setRequestHeader('Content-Type', 'application/json');
+
+  postRequest.addEventListener('load', function (event) {
+    var err;
+    if (event.target.status !== 200) {
+      err = event.target.response;
+    }
+
+    historyItem.remove();
+  });
+
+  postRequest.send();
 }
 
 // NO MODAL YET
@@ -131,4 +158,8 @@ window.addEventListener('DOMContentLoaded', function (event) {
     addhistoryButton.addEventListener('click', addNewHistory);
   }
 
+  var historyRemoveButtons = document.getElementsByClassName('history-remove-button');
+  for (var i = 0; i < historyRemoveButtons.length; i++) {
+    historyRemoveButtons[i].addEventListener('click', removeHistory);
+  }
 });

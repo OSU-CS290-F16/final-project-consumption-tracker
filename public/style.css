@@ -75,7 +75,7 @@ footer{
   margin-left: auto;
   margin-right: auto;
 }
-.history-body{
+#history-body{
   margin-left: auto;
   margin-right: auto;
 }
@@ -99,7 +99,7 @@ footer{
   display: inline;
   padding-right: 50px;
 }
-.button-history{
+.history-remove-button {
   display: inline;
   padding-right: 10px;
   height: 50%;

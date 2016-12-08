@@ -121,6 +121,7 @@ app.get('/track/:trackerid', function(request, response, next) {
           var history = [];
           rows.forEach(function(row) {
             history.push({
+              id: row.id,
               date: row.date,
               quantity: row.quantity
             });
@@ -156,11 +157,12 @@ app.post('/track/:trackerid', function(req, res)
     mySQLConnection.query(
       'INSERT INTO history (trackerid, date, quantity) VALUES (?, ?, ?)',
       [req.params.trackerid, trackerDate, req.body.quantity],
-      function (err) {
+      function (err, result) {
         if (err) {
           console.log("== ERROR: Failed to insert history into database: ", err);
           response.status(500).send("ERROR: Failed to insert history into database: " + err);
         }
+        var id = result.insertId;
 
         // After inserting history, calculate the tracker's total quantity
         mySQLConnection.query(
@@ -186,6 +188,7 @@ app.post('/track/:trackerid', function(req, res)
               }
 
               res.status(200).send({
+                id: id,
                 date: trackerDate,
                 unit: rows[0].unit
               });
@@ -239,6 +242,7 @@ app.post('/track/:trackerid/remove/:historyid', function (req, res) {
               res.status(500).send("== ERROR: Failed to commit remove history transaction: " + err);
             }
 
+            console.log("== POST: Removed history item (" + req.params.historyid + ") from database.");
             res.status(200).send();
           });
         });
