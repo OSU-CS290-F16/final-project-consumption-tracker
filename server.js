@@ -139,7 +139,7 @@ app.get('/track/:trackerid', function(request, response, next) {
   });
 });
 
-app.post('/track/:trackerid', function(req, res, next)
+app.post('/track/:trackerid', function(req, res)
 { // Quantity is required
   if (req.body && req.body.quantity)
   {
@@ -197,6 +197,54 @@ app.post('/track/:trackerid', function(req, res, next)
   } else {
     res.status(400).send("Quantity must be specified.");
   }
+});
+
+app.post('/track/:trackerid/remove/:historyid', function (req, res) {
+  mySQLConnection.beginTransaction(function (err) {
+    if (err) {
+      console.log("== ERROR: Remove history transaction failed: ", err);
+      res.status(500).send("ERROR: Remove history transaction failed: " + err);
+    }
+
+    mySQLConnection.query('DELETE FROM history WHERE id=?',
+    [req.params.historyid],
+    function(err) {
+      if (err) {
+        console.log("== ERROR: Failed to remove history: ", err);
+        mySQLConnection.rollback();
+        res.status(500).send("ERROR: Failed to remove history: " + err);
+      }
+
+      mySQLConnection.query(
+      'SELECT SUM(quantity) AS totalQuantity FROM history WHERE trackerid=?',
+      [req.params.trackerid], function (err, rows) {
+        if (err) {
+          console.log("== ERROR: Failed to calculate tracker's total quantity from database: ", err);
+          mySQLConnection.rollback();
+          res.status(500).send("ERROR: Failed to calculate tracker's total quantity from database: " + err);
+        }
+
+        mySQLConnection.query('UPDATE tracker SET quantity=? WHERE id=?',
+        [rows[0].totalQuantity, req.params.trackerid], function (err) {
+          if (err) {
+            console.log("== ERROR: Failed to update tracker's total quantity in database: ", err);
+            mySQLConnection.rollback();
+            res.status(500).send("ERROR: Failed to update tracker's total quantity in database: " + err);
+          }
+
+          mySQLConnection.commit(function (err) {
+            if (err) {
+              console.log("== ERROR: Failed to commit remove history transaction: ", err);
+              mySQLConnection.rollback();
+              res.status(500).send("== ERROR: Failed to commit remove history transaction: " + err);
+            }
+
+            res.status(200).send();
+          });
+        });
+      });
+    });
+  });
 });
 
 app.get('*', function(request, response) {
