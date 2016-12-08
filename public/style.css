@@ -1,9 +1,19 @@
-/* TODO Style it up */
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
 header{
   display: block;
   background-color: #93baf9;
   color: black;
 }
+
+header h1 {
+  padding: 10px;
+  margin: 0;
+}
+
 main {
   display: flex;
   flex-wrap: wrap;
@@ -25,6 +35,7 @@ nav ul {
 nav li {
   display: inline;
 }
+
 footer{
   display: block;
   position: fixed;
@@ -63,10 +74,29 @@ footer{
   bottom: 0px;
   right: 0px;
   font-size: 25px;
-  display: block;
+  display: none;
   cursor: pointer;
   color: grey;
 }
+
+.item:hover .edit-button {
+  display: initial;
+}
+
+.item .entry-remove-button {
+  font-family: sans-serif;
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 30px;
+  display: none;
+  cursor: pointer;
+}
+
+.item:hover .entry-remove-button {
+  display: initial;
+}
+
 .history{
   clear: both;
   display: block;

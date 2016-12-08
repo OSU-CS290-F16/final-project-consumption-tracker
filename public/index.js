@@ -48,6 +48,9 @@ function insertNewTracker()
         var main = document.querySelector('main');
         main.insertAdjacentHTML('beforeend', trackerHTML);
 
+        document.querySelector("[data-id='"+trackerID+"']").
+            addEventListener('click', removeTracker);
+
         closeModal();
       }
     });
@@ -55,25 +58,6 @@ function insertNewTracker()
   } else {
     alert('You must specify a name for the tracker.');
   }
-}
-
-function deleteTracker()
-{
-  console.log("Adding new item");
-  var itemName = document.getElementById('tracker-input-name').value||'';
-  var itemUnits = document.getElementById('tracker-input-unit').value||'';
-  var itemAmount = document.getElementById('tracker-input-amount').value||'';
-
-  var newItemTemplate =  Handlebars.templates.entry;
-  var newItemHtml = newItemTemplate({
-    name: itemName,
-    type: itemUnits,
-    amount: itemAmount,
-    unit: itemUnits
-  });
-
-  var mainElement = document.querySelector('main');
-  mainElement.insertAdjacentHTML('beforeend', newItemHtml);
 }
 
 function storeTracker(name, type, unit, quantity, callback)
@@ -103,6 +87,27 @@ function storeTracker(name, type, unit, quantity, callback)
   }));
 }
 
+function removeTracker() {
+  var id = this.getAttribute('data-id');
+  var entry = this.parentNode;
+
+  var request = new XMLHttpRequest();
+  request.open('POST', window.location.pathname + 'remove/' + id);
+  request.setRequestHeader('Content-Type', 'application/json');
+
+  request.addEventListener('load', function (event) {
+    var err;
+    if (event.target.status !== 200) {
+      err = event.target.response;
+    }
+
+    // Successfully posted to database, so remove from DOM
+    entry.remove();
+  });
+
+  request.send();
+}
+
 window.addEventListener('DOMContentLoaded', function (event) {
 
   var addTracker = document.getElementById('add-item-button');
@@ -123,6 +128,11 @@ window.addEventListener('DOMContentLoaded', function (event) {
   var addTrackerButton = document.querySelector('.modal-accept-button');
   if (addTrackerButton) {
     addTrackerButton.addEventListener('click', insertNewTracker);
+  }
+
+  var removeTrackerButton = document.getElementsByClassName('entry-remove-button');
+  for (var i = 0; i < removeTrackerButton.length; i++) {
+    removeTrackerButton[i].addEventListener('click', removeTracker);
   }
 
 });

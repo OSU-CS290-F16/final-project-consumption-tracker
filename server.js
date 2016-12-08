@@ -102,6 +102,29 @@ app.post('/', function(req, res) {
   }
 });
 
+app.post('/remove/:trackerid', function (req, res) {
+
+  mySQLConnection.query('DELETE FROM tracker WHERE id = ?',
+  [req.params.trackerid],
+  function (err) {
+    if (err) {
+      console.log("== ERROR: Failed to remove tracker: ", err);
+      res.status(500).send("ERROR: Failed to remove tracker: " + err);
+    }
+
+    mySQLConnection.query('DELETE FROM history WHERE trackerid = ?',
+    [req.params.trackerid],
+    function (err) {
+      if (err) {
+        console.log("== ERROR: Failed to tracker's history: ", err);
+        res.status(500).send("ERROR: Failed to remove tracker's history: " + err);
+      }
+
+      res.status(200).send();
+    });
+  });
+});
+
 app.get('/track/:trackerid', function(request, response, next) {
 
   mySQLConnection.query('SELECT * FROM tracker WHERE id = ?',

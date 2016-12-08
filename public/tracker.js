@@ -69,7 +69,7 @@ function storeHistory(date, quantity, callback)
 
   postRequest.addEventListener('load', function (event) {
     var err;
-    var id
+    var id;
     var date;
     var unit;
 
