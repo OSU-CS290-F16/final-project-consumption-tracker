@@ -47,12 +47,13 @@ app.get('/', function(request, response) {
   });
 });
 
-app.post('/', function(req, res, next) {
+app.post('/', function(req, res) {
   if (req.body && req.body.name)
   {
     // Insert Tracker into database
     mySQLConnection.query(
-      'INSERT INTO tracker (name, unit, quantity) VALUES (?, ?, ?)', [req.body.name, req.body.unit, req.body.quantity],
+      'INSERT INTO tracker (name, unit, quantity) VALUES (?, ?, ?)',
+      [req.body.name, req.body.unit, req.body.quantity],
       function(error, result) {
         if (error) {
           console.log("== Error inserting tracker into database:", error);
@@ -74,20 +75,25 @@ app.post('/', function(req, res, next) {
               ('0' + date.getDate()).slice(-2) + '/' + date.getFullYear();
 
             mySQLConnection.query(
-              'INSERT INTO history (trackerid, date, quantity) VALUES (LAST_INSERT_ID(), ?, ?)', [dateString, req.body.quantity],
-              function(err, result) {
+              'INSERT INTO history (trackerid, date, quantity) VALUES (LAST_INSERT_ID(), ?, ?)',
+              [dateString, req.body.quantity],
+              function(err) {
                 if (err) {
                   console.log("== Error inserting new tracker's history into database: ", err);
                   res.status(500).send("Error inserting new tracker's history into database: " + err);
                 }
+
+                // Respond with the new tracker's ID for the link in the entry
+                res.status(200).send({
+                  trackerID: trackerID
+                });
               });
+          } else {
+            // Respond with the new tracker's ID for the link in the entry
+            res.status(200).send({
+              trackerID: trackerID
+            });
           }
-
-          // Respond with the new tracker's ID for the link in the entry
-          res.status(200).send({
-            trackerID: trackerID
-          });
-
         });
       });
 
@@ -98,7 +104,9 @@ app.post('/', function(req, res, next) {
 
 app.get('/track/:trackerid', function(request, response, next) {
 
-  mySQLConnection.query('SELECT * FROM tracker WHERE id = ?', [request.params.trackerid], function(error, rows) {
+  mySQLConnection.query('SELECT * FROM tracker WHERE id = ?',
+  [request.params.trackerid],
+  function(error, rows) {
     if (error) {
       console.log("== Error fetching tracker (", request.params.trackerid, ") from database: ", error);
       res.status(500).send("Error fetching tracker from database: " + error);
@@ -129,6 +137,66 @@ app.get('/track/:trackerid', function(request, response, next) {
       next();
     }
   });
+});
+
+app.post('/track/:trackerid', function(req, res, next)
+{ // Quantity is required
+  if (req.body && req.body.quantity)
+  {
+    // If no date is provided, use today
+    var trackerDate = req.body.date;
+    if (trackerDate === '') {
+      var date = new Date();
+      // Date format: MM/DD/YYYY with leading zeros as necessary
+      trackerDate = ('0' + (date.getMonth() + 1)).slice(-2) + '/' +
+        ('0' + date.getDate()).slice(-2) + '/' + date.getFullYear();
+    }
+    // Insert History into database
+    // TODO: Verify that the associated tracker exists
+    mySQLConnection.query(
+      'INSERT INTO history (trackerid, date, quantity) VALUES (?, ?, ?)',
+      [req.params.trackerid, trackerDate, req.body.quantity],
+      function (err) {
+        if (err) {
+          console.log("== ERROR: Failed to insert history into database: ", err);
+          response.status(500).send("ERROR: Failed to insert history into database: " + err);
+        }
+
+        // After inserting history, calculate the tracker's total quantity
+        mySQLConnection.query(
+          'SELECT SUM(quantity) AS totalQuantity FROM history WHERE trackerid=?',
+          [req.params.trackerid], function (err, rows) {
+          if (err) {
+            console.log("== ERROR: Failed to calculate tracker's total quantity from database: ", err);
+            response.status(500).send("ERROR: Failed to calculate tracker's total quantity from database: " + err);
+          }
+          // Update the tracker's quantity
+          mySQLConnection.query('UPDATE tracker SET quantity=? WHERE id=?',
+          [rows[0].totalQuantity, req.params.trackerid], function (err) {
+            if (err) {
+              console.log("== ERROR: Failed to update tracker's total quantity in database: ", err);
+              response.status(500).send("ERROR: Failed to update tracker's total quantity in database: " + err);
+            }
+
+            mySQLConnection.query('SELECT unit FROM tracker WHERE id=?',
+            [req.params.trackerid], function (err, rows) {
+              if (err) {
+                console.log("== ERROR: Failed to fetch tracker's unit from database: ", err);
+                response.status(500).send("ERROR: Failed to fetch tracker's unit from database: " + err);
+              }
+
+              res.status(200).send({
+                date: trackerDate,
+                unit: rows[0].unit
+              });
+            });
+          });
+        });
+    });
+
+  } else {
+    res.status(400).send("Quantity must be specified.");
+  }
 });
 
 app.get('*', function(request, response) {

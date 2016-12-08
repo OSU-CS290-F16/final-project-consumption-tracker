@@ -1,18 +1,20 @@
 function displayNewHistory() //displays new history form
 {
-  var historybackground = document.getElementById('modal-history-backdrop')
+  var historybackground = document.getElementById('modal-history-backdrop');
   historybackground.classList.remove('hidden');
   var historyModal = document.getElementById('history-modal');
   historyModal.classList.remove('hidden');
 }
+
 function closeNewHistoryModal() // closes new history form
 {
-  var historybackground = document.getElementById('modal-history-backdrop')
+  var historybackground = document.getElementById('modal-history-backdrop');
   historybackground.classList.add('hidden');
   var historyModal = document.getElementById('history-modal');
   historyModal.classList.add('hidden');
   clearNewHistoryModalValues();
 }
+
 function clearNewHistoryModalValues() // clears history forms values
 {
   var historyFields = document.getElementsByClassName('history-input-element');
@@ -21,23 +23,67 @@ function clearNewHistoryModalValues() // clears history forms values
     input.value = '';
   }
 }
+
 function addNewHistory()
 {
-  console.log("Adding new history");
   var historyAmount = document.getElementById('history-input-amount').value||'';
   var historyDate = document.getElementById('history-input-date').value||'';
 
-  var newHistoryTemplate =  Handlebars.templates['itemHistory'];
-  console.log(newHistoryTemplate);
-  console.log(Handlebars.templates);
-  var newHistoryHtml = newHistoryTemplate({
-    date: historyDate,
-    consumption: historyAmount
+  // Quantity is required
+  if (historyAmount.trim())
+  {
+    storeHistory(historyDate, historyAmount, function (err, date, unit) {
+      if (err) {
+        alert("Unable to save history. " + err);
+      } else {
+
+        var historyTemplate =  Handlebars.templates.itemHistory;
+        var historyHtml = historyTemplate({
+          date: date,
+          quantity: historyAmount,
+          unit: unit
+        });
+
+        var sectionElement = document.querySelector('section');
+        sectionElement.insertAdjacentHTML('beforeend', historyHtml);
+
+        closeModal();
+      }
+    });
+
+  } else {
+      alert('You must specify the quantity consumed or gained.');
+  }
+}
+
+function storeHistory(date, quantity, callback)
+{
+  var postRequest = new XMLHttpRequest();
+  postRequest.open('POST', window.location.pathname); // Current path
+  postRequest.setRequestHeader('Content-Type', 'application/json');
+
+  postRequest.addEventListener('load', function (event) {
+    var err;
+    var date;
+    var unit;
+
+    if (event.target.status !== 200) {
+      err = event.target.response;
+    } else {
+      var response = JSON.parse(event.target.response);
+      date = response.date;
+      unit = response.unit;
+    }
+
+    callback(err, date, unit);
   });
 
-  var mainElement = document.querySelector('section');
-  mainElement.insertAdjacentHTML('beforeend', newHistoryHtml);
+  postRequest.send(JSON.stringify({
+    date: date,
+    quantity: quantity
+  }));
 }
+
 // NO MODAL YET
 /*function displayEditHistoryModal()
 {

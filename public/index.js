@@ -47,10 +47,10 @@ function insertNewTracker()
 
         var main = document.querySelector('main');
         main.insertAdjacentHTML('beforeend', trackerHTML);
+
+        closeModal();
       }
     });
-
-    closeModal();
 
   } else {
     alert('You must specify a name for the tracker.');
@@ -64,7 +64,7 @@ function deleteTracker()
   var itemUnits = document.getElementById('tracker-input-unit').value||'';
   var itemAmount = document.getElementById('tracker-input-amount').value||'';
 
-  var newItemTemplate =  Handlebars.templates['entry'];
+  var newItemTemplate =  Handlebars.templates.entry;
   var newItemHtml = newItemTemplate({
     name: itemName,
     type: itemUnits,
