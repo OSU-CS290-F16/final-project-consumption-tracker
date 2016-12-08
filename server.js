@@ -2,6 +2,7 @@ var path = require('path');
 var express = require('express');
 var exphbs = require('express-handlebars');
 var config = require('./config.json');
+var fs = require('fs');
 
 var ItemTest = require('./ItemTest.json');
 
@@ -14,7 +15,7 @@ var port = process.env.PORT || 3000;
   //console.log("== Connected to database.");
 //});
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
 app.use("/styles", express.static(__dirname + 'public/styles'));
