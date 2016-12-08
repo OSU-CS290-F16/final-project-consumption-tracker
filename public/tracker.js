@@ -35,7 +35,7 @@ function addNewHistory()
     consumption: historyAmount
   });
 
-  var mainElement = document.querySelector('main');
+  var mainElement = document.querySelector('section');
   mainElement.insertAdjacentHTML('beforeend', newHistoryHtml);
 }
 // NO MODAL YET
