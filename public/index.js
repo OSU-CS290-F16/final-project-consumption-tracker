@@ -25,7 +25,7 @@ function clearModalValue()
 function insertNewTracker()
 {
   var trackerName = document.getElementById('tracker-input-name').value || '';
-  var trackerType = ''; // document.getElementById('tracker-input-type').value || ''; TODO: Form not implemented yet
+  var trackerType =  document.getElementById('tracker-input-type').value || '';
   var trackerUnit = document.getElementById('tracker-input-unit').value || '';
   var trackerQuantity = document.getElementById('tracker-input-amount').value || '';
 

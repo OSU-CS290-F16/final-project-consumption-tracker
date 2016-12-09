@@ -53,7 +53,7 @@ app.post('/', function(req, res) {
     // Insert Tracker into database
     mySQLConnection.query(
       'INSERT INTO tracker (name, unit, quantity) VALUES (?, ?, ?)',
-      [req.body.name, req.body.unit, req.body.quantity],
+      [req.body.name, req.body.type, req.body.unit, req.body.quantity],
       function(error, result) {
         if (error) {
           console.log("== Error inserting tracker into database:", error);
